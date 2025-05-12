@@ -22,18 +22,31 @@ categorySelect.addEventListener("change", async () => {
     mailDbAPI + "filter.php?c=" + categorySelect.value
   );
   const data = await response.json();
-  console.log(data);
 
   for (let miles of data.meals) {
     let newDiv = document.createElement("div");
+    newDiv.classList = "mealImage";
 
     newDiv.innerHTML = `<img src="${miles.strMealThumb}" alt="${miles.strMeal}" width="150" />
                        <p> ${miles.strMeal} </p>`;
-    console.log(miles);
+
     mailGrid.append(newDiv);
+
+    newDiv.addEventListener("click", async () => {
+      let recipeResponse = await fetch(
+        mailDbAPI + "lookup.php?i=" + miles.idMeal
+      );
+      let data = await recipeResponse.json();
+
+      document.querySelector(".recipeText").innerText =
+        data.meals[0].strInstructions;
+      document.querySelector(".popup").style.display = "block";
+    });
   }
 });
-
+document.querySelector(".closePopup").addEventListener("click", () => {
+  document.querySelector(".popup").style.display = "none";
+});
 //  {strMeal: 'Kapsalon', strMealThumb: 'https://www.themealdb.com/images/media/meals/sxysrt1468240488.jpg', idMeal: '52769'}
 // idMeal: "52769"
 // strMeal: "Kapsalon"
