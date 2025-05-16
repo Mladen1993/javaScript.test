@@ -18,8 +18,6 @@ for (let category of data.categories) {
   categorySelect.append(categoryElement);
 }
 categorySelect.addEventListener("change", async () => {
-  mailGrid.innerHTML = "";
-
   // const response = await fetch(
   //   mailDbAPI + "filter.php?c=" + categorySelect.value
   // );
@@ -41,6 +39,7 @@ categorySelect.addEventListener("change", async () => {
       //   mailDbAPI + "lookup.php?i=" + miles.idMeal
       // );
       // let data = await recipeResponse.json();
+      document.querySelector(".coctel").innerHTML = "";
       let coctelDiv = document.createElement("div");
 
       const data = await getMealDBdata("lookup.php?i=" + miles.idMeal);
